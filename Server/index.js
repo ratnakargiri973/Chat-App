@@ -4,6 +4,7 @@ import 'dotenv/config'
 import { connectDB } from './DB/dbConnector.js';
 import userRouter from './router/userRoutes.js';
 import cookieParser from 'cookie-parser';
+import authRouter from './router/authRoute.js';
 
 const PORT = process.env.PORT;
 
@@ -23,6 +24,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 app.use('/api/v1/user', userRouter);
+app.use('/api/v1/auth', authRouter);
 
 
 await connectDB();

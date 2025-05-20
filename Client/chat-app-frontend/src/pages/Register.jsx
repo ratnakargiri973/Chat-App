@@ -11,6 +11,7 @@ import {
 import { LoadingButton } from '@mui/lab';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import instance from '../AxiosConfig/AxiosConfig';
+import { ToastContainer, toast } from 'react-toastify';
 
 function Register() {
   const [formData, setFormData] = useState({
@@ -23,6 +24,8 @@ function Register() {
   const [profilePic, setProfilePic] = useState(null);
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState('');
+
+  const notify = (msg) => toast.success(msg);
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -54,6 +57,9 @@ function Register() {
       });
 
       console.log('Registered user:', response.data);
+
+      notify(response?.data?.message || 'Registration successful!');
+
       setFormData({
         name: '',
         userName: '',
@@ -62,10 +68,14 @@ function Register() {
         password: '',
       });
       setProfilePic(null);
-      navigate('/log-in');
+
+
+      setTimeout(() => {
+        navigate('/log-in');
+      }, 1500);
     } catch (error) {
       const errMsg = error?.response?.data?.message || 'Registration failed. Try again.';
-      setMessage(errMsg);
+      toast.error(errMsg);
     } finally {
       setLoading(false);
     }
@@ -147,6 +157,19 @@ function Register() {
           </Typography>
         </Box>
       </Box>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
+
     </Box>
   );
 }

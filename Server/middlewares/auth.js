@@ -11,7 +11,7 @@ export const protectedRoute = async (req, res, next) => {
         }
 
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        // console.log(decoded);
+
 
         if(decoded.exp < Date.now() / 1000){
             return res.status(401).json({message: "Token expired"});

@@ -52,11 +52,11 @@ export const register = async (req, res) => {
 
 
 export const login = async (req, res) => {
-  const { emailOrPhone, password } = req.body;
+  const { emailOrPhoneOrUserName, password } = req.body;
 
   try {
     const userToLogin = await user.findOne({
-      $or: [{ email: emailOrPhone }, { phone: emailOrPhone }]
+      $or: [{ email: emailOrPhoneOrUserName }, {userName: emailOrPhoneOrUserName }, { phone: emailOrPhoneOrUserName }]
     });
 
     if (!userToLogin) {

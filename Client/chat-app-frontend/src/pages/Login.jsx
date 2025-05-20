@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   Typography,
@@ -12,17 +12,25 @@ import {
 import { LoadingButton } from '@mui/lab';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import instance from '../AxiosConfig/AxiosConfig';
+import { useDispatch } from 'react-redux';
+import { handleAuth } from '../token/Auth';
+import { ToastContainer, toast } from 'react-toastify';
+
+
 
 function Login() {
   const [loginInfo, setLoginInfo] = useState({
-    emailOrPhone: '',
+    emailOrPhoneOrUserName: '',
     password: '',
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const [checked, setChecked] = useState(false);
 
+  const notify = (msg) => toast.success(msg);
+
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -35,23 +43,32 @@ function Login() {
   };
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-    setMessage("");
+  e.preventDefault();
+  setLoading(true);
+  setMessage("");
 
-    try {
-      const response = await instance.post('user/login', loginInfo);
+  try {
+    const response = await instance.post('user/login', loginInfo);
 
-      console.log('Login success:', response.data);
+    console.log('Login success:', response.data);
+
+    notify(response?.data?.message || "Login Successful");
+
+    await handleAuth(dispatch);
+
+    
+    setTimeout(() => {
       navigate('/home');
-    } catch (error) {
-      const errMsg =
-        error?.response?.data?.message || 'Login failed. Please try again.';
-      setMessage(errMsg);
-    } finally {
-      setLoading(false);
-    }
-  };
+    }, 1500);
+  } catch (error) {
+    const errMsg =
+      error?.response?.data?.message || 'Login failed. Please try again.';
+    setMessage(errMsg);
+    toast.error(errMsg); 
+  } finally {
+    setLoading(false);
+  }
+};
 
   return (
     <Box
@@ -121,11 +138,11 @@ function Login() {
               sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}
             >
               <TextField
-                name="emailOrPhone"
-                label="Email or Phone"
+                name="emailOrPhoneOrUserName"
+                label="Email or Phone or User name"
                 variant="standard"
                 type="text"
-                value={loginInfo.emailOrPhone}
+                value={loginInfo.emailOrPhoneOrUserName}
                 onChange={handleChange}
                 fullWidth
               />
@@ -199,6 +216,18 @@ function Login() {
           </Box>
         </Box>
       </Box>
+      <ToastContainer
+        position="top-center"
+        autoClose={5000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick={false}
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+        theme="light"
+      />
     </Box>
   );
 }

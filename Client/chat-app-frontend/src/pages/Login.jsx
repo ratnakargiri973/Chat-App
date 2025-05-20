@@ -4,7 +4,7 @@ import {
   Typography,
   TextField,
   Link as MuiLink,
-  Radio,
+  Checkbox,
   FormControlLabel,
   useTheme,
   useMediaQuery,
@@ -20,6 +20,7 @@ function Login() {
   });
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  const [checked, setChecked] = useState(false);
 
   const navigate = useNavigate();
   const theme = useTheme();
@@ -149,12 +150,18 @@ function Login() {
                 }}
               >
                 <FormControlLabel
-                  value="remember"
-                  control={<Radio color="primary" />}
+                  control={
+                    <Checkbox
+                      color="primary"
+                      checked={checked}
+                      onChange={() => setChecked(!checked)}
+                    />
+                  }
                   label="Remember Me"
                 />
                 <MuiLink
-                  href="forgot-password"
+                  component={RouterLink}
+                  to="/forgot-password"
                   underline="hover"
                   sx={{ fontSize: 14, color: '#1976d2' }}
                 >

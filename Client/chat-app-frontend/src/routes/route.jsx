@@ -15,9 +15,9 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <App />, 
-    children: [
-      {
-        element: <AuthLayout />, 
+    // children: [
+    //   {
+    //     element: <AuthLayout />, 
         children: [
           {
             index: true,
@@ -58,9 +58,9 @@ const router = createBrowserRouter([
             ]
           }
         ]
-      },
-    ]
-  }
+     },
+  //   ]
+  // }
 ]);
 
 export default router;

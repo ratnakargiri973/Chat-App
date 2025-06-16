@@ -85,13 +85,13 @@ function Register() {
     <Box
       sx={{
         flex: 1,
-        width: '98vw',
+        width: '100vw',
         display: 'flex',
         flexDirection: { xs: 'column', md: 'row' },
         backgroundImage:
           "url('https://wallpapers.com/images/thumbnail/samsung-galaxy-s7-edge-fiber-optics-tfzkecbjvsho4br4.webp')",
         backgroundSize: 'cover',
-        borderRadius: '10px',
+        // borderRadius: '10px',
       }}
     >
       <Box

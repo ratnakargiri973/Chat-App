@@ -12,8 +12,6 @@ import {
 import { LoadingButton } from '@mui/lab';
 import { useNavigate, Link as RouterLink } from 'react-router-dom';
 import instance from '../AxiosConfig/AxiosConfig';
-import { useDispatch } from 'react-redux';
-import { handleAuth } from '../token/Auth';
 import { ToastContainer, toast } from 'react-toastify';
 
 
@@ -30,7 +28,7 @@ function Login() {
   const notify = (msg) => toast.success(msg);
 
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const theme = useTheme();
   const isSmallScreen = useMediaQuery(theme.breakpoints.down('sm'));
 
@@ -54,12 +52,12 @@ function Login() {
 
     notify(response?.data?.message || "Login Successful");
 
-    await handleAuth(dispatch);
+    // await handleAuth(dispatch);
 
-    
     setTimeout(() => {
       navigate('/home');
     }, 1500);
+  
   } catch (error) {
     const errMsg =
       error?.response?.data?.message || 'Login failed. Please try again.';
@@ -70,11 +68,13 @@ function Login() {
   }
 };
 
+  
+
   return (
     <Box
       sx={{
         flex: 1,
-        width: '98vw',
+        width: '100vw',
         display: 'flex',
         flexDirection: { xs: 'column', md: 'row' },
         backgroundImage:
@@ -82,7 +82,7 @@ function Login() {
         backgroundRepeat: 'no-repeat',
         backgroundPosition: 'center',
         backgroundSize: 'cover',
-        borderRadius: '10px',
+        // borderRadius: '10px',
       }}
     >
       <Box
@@ -120,7 +120,7 @@ function Login() {
               gutterBottom
               sx={{ fontWeight: 'bold', color: '#1976d2' }}
             >
-              SIGN IN
+              Welcome Back
             </Typography>
 
             {message && (
@@ -198,7 +198,7 @@ function Login() {
                   fontWeight: 'bold',
                 }}
               >
-                Login
+                Let's Go
               </LoadingButton>
 
               <Typography align="center" sx={{ mt: 2 }}>

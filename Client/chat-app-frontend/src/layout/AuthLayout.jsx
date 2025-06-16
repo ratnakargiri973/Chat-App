@@ -1,10 +1,11 @@
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { Box, Grid, Typography, Container } from '@mui/material';
 
 function AuthLayout() {
   const HEADER_HEIGHT = 60;
+  
 
   return (
     <Box
@@ -15,7 +16,7 @@ function AuthLayout() {
         backgroundColor: '#f9f9f9',
       }}
     >
-      <Box
+      {/* <Box
         sx={{
           height: `${HEADER_HEIGHT}px`,
           backgroundColor: '#fff',
@@ -56,21 +57,19 @@ function AuthLayout() {
             </Grid>
           </Grid>
         </Container>
-      </Box>
+      </Box> */}
 
 
       <Box
         sx={{
-          flexGrow: 1,
+          flex: 1,
           display: 'flex',
-          px: 2,
-          py: 3,
           minHeight: 0,
         }}
       >
         <Container
           sx={{
-            flexGrow: 1,
+            flex: 1, 
             display: 'flex',
             flexDirection: 'column',
             alignItems: 'center',

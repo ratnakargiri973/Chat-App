@@ -11,44 +11,52 @@ import 'dotenv/config';
 
 
 export const register = async (req, res) => {
-    const {name, userName, email, phone} = req.body;
-    const imageObj = await uploadToCloudinary(req.file.buffer);
-    try {
-        const existingEmail = await user.findOne({email});
+  const { name, userName, email, phone } = req.body;
+  let imageUrl = null;
 
-        if(existingEmail){
-            return res.status(400).send({message: "Given email address exists. Please try with another email."})
-        }
-
-        const existingUserName = await user.findOne({userName});
-
-        if(existingUserName){
-            return res.status(400).send({message: `Username ${userName} exists.`});
-        }
-
-        if(!email.includes("@")){
-            return res.status(400).send({message: "Email must contain a @ symbol."});
-        }
-
-        const password = await bcrypt.hash(req.body.password, 10);
-        
-        const newUser = await user({
-            name,
-            userName,
-            email,
-            password,
-            phone,
-            profilePic: imageObj.secure_url
-        });
-
-        await newUser.save();
-
-        res.status(201).send({message: "User registered successfully", newUser});
-
-    } catch (error) {
-        res.status(500).send({message: "Error in registering user", error});
+  try {
+    if (req.file) {
+      const imageObj = await uploadToCloudinary(req.file.buffer);
+      imageUrl = imageObj?.imageObj?.secure_url;
     }
-}
+
+    const existingEmail = await user.findOne({ email });
+    if (existingEmail) {
+      return res.status(400).send({
+        message: 'Given email address exists. Please try with another email.',
+      });
+    }
+
+    const existingUserName = await user.findOne({ userName });
+    if (existingUserName) {
+      return res.status(400).send({
+        message: `Username ${userName} exists.`,
+      });
+    }
+
+    if (!email.includes('@')) {
+      return res.status(400).send({ message: 'Email must contain a @ symbol.' });
+    }
+
+    const password = await bcrypt.hash(req.body.password, 10);
+
+    const newUser = new user({
+      name,
+      userName,
+      email,
+      password,
+      phone,
+      profilePic: imageUrl ? imageUrl : "",
+    });
+
+    await newUser.save();
+
+    res.status(201).send({ message: 'User registered successfully', newUser });
+  } catch (error) {
+    res.status(500).send({ message: 'Error in registering user', error });
+  }
+};
+
 
 
 export const login = async (req, res) => {

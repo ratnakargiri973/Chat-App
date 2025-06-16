@@ -13,7 +13,7 @@ function WelcomePage() {
         alignItems: 'center',
         justifyContent: 'center',
         flex: 1,
-        width: '95vw',
+        width: '100vw',
         px: { xs: 4, sm: 6, md: 8 },
         backgroundImage: "url('https://tse3.mm.bing.net/th?id=OIP.UVK4ha7b2vY4V0xkVfPllQHaE9&pid=Api&P=0&h=180')",
         backgroundRepeat:'no-repeat',

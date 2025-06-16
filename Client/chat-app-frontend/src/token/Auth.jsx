@@ -10,9 +10,15 @@ export const handleAuth = async (dispatch) => {
 
     console.log('Auth Response:', response.data);
 
-    if (response.data.success) {
-      dispatch(setUser(response.data.user));
-    }
+      const userData = response.data.user;
+
+      dispatch(setUser({
+        name: userData.name,
+        userName: userData.userName,
+        email: userData.email,
+        phone: userData.phone,
+        profilePic: userData.profilePic,
+      }));
   } catch (error) {
     console.error('Auth failed:', error.response?.data || error.message);
   }

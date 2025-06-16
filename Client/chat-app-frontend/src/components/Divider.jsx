@@ -1,10 +1,16 @@
 import React from 'react';
-import { Box, IconButton, Tooltip } from '@mui/material';
+import { Box, IconButton, Link, Tooltip } from '@mui/material';
 import MessageIcon from '@mui/icons-material/Message';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
+import { useDispatch, useSelector } from 'react-redux';
+import { setProfile } from '../redux/slice/profileSlice';
+// import { useNavigate } from 'react-router-dom';
+
 
 function Divider() {
+  const dispatch = useDispatch();
+  const isProfileOpen = useSelector((state) => state.profile.isProfileOpen);
   return (
     <Box
       sx={{
@@ -20,17 +26,19 @@ function Divider() {
       }}
     >
       <Tooltip title="Messages" placement="right">
-        <IconButton>
+        <IconButton component={Link} to="/home">
           <MessageIcon />
         </IconButton>
       </Tooltip>
+
       <Tooltip title="Contacts" placement="right">
-        <IconButton>
+        <IconButton component={Link} to="/home/contacts">
           <ContactsIcon />
         </IconButton>
       </Tooltip>
+
       <Tooltip title="Profile" placement="right">
-        <IconButton>
+        <IconButton onClick={() => dispatch(setProfile(!isProfileOpen))}>
           <AccountBoxIcon />
         </IconButton>
       </Tooltip>

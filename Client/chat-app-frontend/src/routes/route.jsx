@@ -10,14 +10,14 @@ import Home from '../pages/Home';
 import Message from '../components/Message';
 import AuthLayout from '../layout/AuthLayout';
 import WelcomePage from '../pages/WelcomePage';
+import Profile from '../pages/Profile';
+import Contacts from '../pages/Contacts';
+import Messages from '../pages/Messages'
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />, 
-    // children: [
-    //   {
-    //     element: <AuthLayout />, 
         children: [
           {
             index: true,
@@ -54,13 +54,23 @@ const router = createBrowserRouter([
               {
                 path: ':userId',
                 element: <Message />
+              },
+              {
+                path: 'profile',
+                element: <Profile />
+              },
+              {
+                path: 'contacts',
+                element: <Contacts />
+              },
+              {
+                path: 'message',
+                element: <Messages />
               }
             ]
           }
         ]
      },
-  //   ]
-  // }
 ]);
 
 export default router;

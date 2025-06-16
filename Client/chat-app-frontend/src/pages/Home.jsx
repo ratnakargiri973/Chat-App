@@ -1,6 +1,6 @@
-import React from 'react';
-import { Outlet } from 'react-router-dom';
-import { Box } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Outlet, useLocation, useNavigate } from 'react-router-dom';
+import { Box, Typography, Paper } from '@mui/material';
 import Sidebar from './Sidebar';
 import ProfileHeader from '../components/ProfileHeader';
 import { useSelector } from 'react-redux';
@@ -8,6 +8,18 @@ import Divider from '../components/Divider';
 
 function Home() {
   const isDividerOpen = useSelector((state) => state.divider.isDividerOpen);
+  const isProfileOpen = useSelector((state) => state.profile.isProfileOpen);
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  useEffect(() => {
+    if (isProfileOpen) {
+      navigate('/home/profile');
+    } else {
+      navigate('/home');
+    }
+  }, [isProfileOpen, navigate]);
+
 
   return (
     <Box
@@ -26,8 +38,8 @@ function Home() {
       <Box
         sx={{
           display: 'flex',
-          mt: '64px', // height of fixed header
-          height: 'calc(100vh - 64px)',
+          mt: '50px', // height of fixed header
+          height: 'calc(100vh - 50px)',
         }}
       >
         {/* Divider */}
@@ -64,6 +76,7 @@ function Home() {
         </Box>
 
         {/* Main Content */}
+
         <Box
           sx={{
             display: {
@@ -72,14 +85,38 @@ function Home() {
               md: 'none',
               lg: 'block',
             },
-            width: isDividerOpen ? 'calc(80% - 60px)' : '80%',
+            width: isDividerOpen ? 'calc(82% - 60px)' : '80%',
             bgcolor: '#f3e5f5',
             p: 3,
             overflowY: 'auto',
           }}
         >
-          <Outlet />
+          {location.pathname === '/home' ? (
+            <Paper
+              elevation={3}
+              sx={{
+                p: 4,
+                textAlign: 'center',
+                borderRadius: 4,
+                background: 'linear-gradient(135deg, #e1bee7, #ce93d8)',
+                color: '#4a148c',
+                boxShadow: '0 4px 20px rgba(0, 0, 0, 0.1)',
+                mt: 10,
+              }}
+            >
+              <Typography variant="h4" sx={{ fontWeight: 'bold', mb: 2 }}>
+                👋 Welcome to Chat Board
+              </Typography>
+              <Typography variant="body1" sx={{ fontSize: '1.1rem' }}>
+                Select a message, contact, or view your profile from the sidebar.
+              </Typography>
+            </Paper>
+          ) : (
+            <Outlet />
+          )}
         </Box>
+
+
       </Box>
     </Box>
   );

@@ -73,8 +73,8 @@ function Avatar() {
           alt={name}
           src={profilePic}
           sx={{
-            width: 48,
-            height: 48,
+            width: 40,
+            height: 40,
             transition: 'transform 0.2s',
             '&:hover': { transform: 'scale(1.1)' },
           }}
@@ -84,8 +84,8 @@ function Avatar() {
         <MuiAvatar
           sx={{
             bgcolor: bgColor,
-            width: 48,
-            height: 48,
+            width: 40,
+            height: 40,
             fontWeight: 'bold',
             transition: 'transform 0.2s',
             '&:hover': { transform: 'scale(1.1)' },

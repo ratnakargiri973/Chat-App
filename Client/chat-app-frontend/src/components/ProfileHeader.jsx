@@ -14,7 +14,7 @@ function ProfileHeader() {
     <Box
       sx={{
         width: '100%',
-        height: '64px',
+        height: '50px',
         px: 3,
         bgcolor: '#81912a',
         display: 'flex',

@@ -50,19 +50,31 @@ function Sidebar() {
 
       {/* Search Bar */}
       <TextField
-        label="Search"
-        variant="outlined"
-        value={searchVal}
-        onChange={(e) => setSearchVal(e.target.value)}
         fullWidth
+        label="Search"
+        id="fullWidth"
+        variant="outlined"
         sx={{
           '& .MuiOutlinedInput-root': {
-            borderRadius: '50px',
-            height: 48,
-            backgroundColor: '#fff',
+            height: '40px',
+            borderRadius: '20px',
+            paddingTop: '0px',
+          },
+          '& .MuiOutlinedInput-input': {
+            padding: '10px 14px',
+            height: '100%',      
+            boxSizing: 'border-box',
+          },
+          '& .MuiInputLabel-root': {
+            top: '-6px', 
+          },
+          '& .MuiInputLabel-shrink': {
+            transform: 'translate(14px, -9px) scale(0.75)',
           },
         }}
       />
+
+
 
       {/* Placeholder for contacts or items */}
       <Box

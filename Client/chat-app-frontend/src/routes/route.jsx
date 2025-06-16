@@ -8,11 +8,12 @@ import ChangePassword from '../pages/ChangePassword';
 import VerifyOtp from '../pages/VerifyOtp';
 import Home from '../pages/Home';
 import Message from '../components/Message';
-import AuthLayout from '../layout/AuthLayout';
+// import AuthLayout from '../layout/AuthLayout';
 import WelcomePage from '../pages/WelcomePage';
 import Profile from '../pages/Profile';
 import Contacts from '../pages/Contacts';
 import Messages from '../pages/Messages'
+import ProtectedRoute from './ProtectedRoute';
 
 const router = createBrowserRouter([
   {
@@ -47,28 +48,22 @@ const router = createBrowserRouter([
             path: 'change-password',
             element: <ChangePassword />
           },
+          
+           {
+        element: <ProtectedRoute />, // <- Protecting all children here
+        children: [
           {
-            path:"home",
+            path: 'home',
             element: <Home />,
             children: [
-              {
-                path: ':userId',
-                element: <Message />
-              },
-              {
-                path: 'profile',
-                element: <Profile />
-              },
-              {
-                path: 'contacts',
-                element: <Contacts />
-              },
-              {
-                path: 'message',
-                element: <Messages />
-              }
-            ]
-          }
+              { path: ':userId', element: <Messages /> },
+              { path: 'profile', element: <Profile /> },
+              { path: 'contacts', element: <Contacts /> },
+              { path: 'message', element: <Messages /> },
+            ],
+          },
+        ],
+      },
         ]
      },
 ]);

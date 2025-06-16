@@ -1,4 +1,4 @@
-
+// utils/handleAuth.js
 import instance from '../AxiosConfig/AxiosConfig';
 import { setUser } from '../redux/slice/userSlice';
 
@@ -8,18 +8,19 @@ export const handleAuth = async (dispatch) => {
       withCredentials: true,
     });
 
-    console.log('Auth Response:', response.data);
+    const userData = response.data.user;
 
-      const userData = response.data.user;
+    dispatch(setUser({
+      name: userData.name,
+      userName: userData.userName,
+      email: userData.email,
+      phone: userData.phone,
+      profilePic: userData.profilePic,
+    }));
 
-      dispatch(setUser({
-        name: userData.name,
-        userName: userData.userName,
-        email: userData.email,
-        phone: userData.phone,
-        profilePic: userData.profilePic,
-      }));
+    return true; 
   } catch (error) {
     console.error('Auth failed:', error.response?.data || error.message);
+    return false; 
   }
 };

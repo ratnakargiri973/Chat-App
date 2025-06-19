@@ -6,6 +6,7 @@ import {
   Typography,
   Fade,
   Grow,
+  useMediaQuery,
 } from '@mui/material';
 import { useSelector } from 'react-redux';
 import instance from '../AxiosConfig/AxiosConfig';
@@ -17,6 +18,8 @@ function Avatar() {
   const [bgColor, setBgColor] = useState('lightgray');
   const avatarRef = useRef();
   const navigate = useNavigate();
+
+  const isSmallOrMedium = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   const muiColors = [
     '#e0f7fa', '#b2ebf2', '#b3e5fc', '#c8e6c9',
@@ -50,9 +53,9 @@ function Avatar() {
         : splitName[0][0].toUpperCase();
   }
 
-  async function handleLogout(){
+  async function handleLogout() {
     try {
-      const response = await instance.post('user/logout', {}, {withCredentials: true});
+      const response = await instance.post('user/logout', {}, { withCredentials: true });
       navigate('/log-in');
     } catch (error) {
       console.log(error);
@@ -96,9 +99,11 @@ function Avatar() {
         </MuiAvatar>
       )}
 
-      <Typography fontWeight="bold" color="white" sx={{ userSelect: 'none' }}>
+      {
+      !isSmallOrMedium && <Typography fontWeight="bold" color="white" sx={{ userSelect: 'none' }}>
         {name}
       </Typography>
+      }
 
       <Grow in={showLogout}>
         <Box

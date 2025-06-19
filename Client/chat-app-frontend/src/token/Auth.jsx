@@ -16,6 +16,8 @@ export const handleAuth = async (dispatch) => {
       email: userData.email,
       phone: userData.phone,
       profilePic: userData.profilePic,
+      coverPic: userData.coverPic,
+      bio: userData.bio
     }));
 
     return true; 

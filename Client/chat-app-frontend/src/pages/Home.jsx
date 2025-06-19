@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
-import { Outlet, useLocation, useNavigate } from 'react-router-dom';
-import { Box, Typography, Paper } from '@mui/material';
+import { Outlet, useNavigate, useLocation } from 'react-router-dom';
+import { Box, Typography, Paper, useMediaQuery } from '@mui/material';
 import Sidebar from './Sidebar';
 import ProfileHeader from '../components/ProfileHeader';
 import { useSelector } from 'react-redux';
 import Divider from '../components/Divider';
+import Profile from './Profile';
 
 function Home() {
   const isDividerOpen = useSelector((state) => state.divider.isDividerOpen);
@@ -12,13 +13,69 @@ function Home() {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const isSmallOrMedium = useMediaQuery((theme) => theme.breakpoints.down('md'));
+
   useEffect(() => {
-    if (isProfileOpen) {
-      navigate('/home/profile');
-    } else {
-      navigate('/home');
+    if (!isSmallOrMedium) {
+      if (isProfileOpen) {
+        navigate('/home/profile');
+      } else {
+        navigate('/home');
+      }
     }
-  }, [isProfileOpen, navigate]);
+  }, [isProfileOpen, navigate, isSmallOrMedium]);
+
+  if (isSmallOrMedium && isProfileOpen) {
+    return (
+      <Box
+        sx={{
+          width: '100vw',
+          height: '100vh',
+          overflow: 'hidden',
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <ProfileHeader />
+
+        <Box
+          sx={{
+            display: 'flex',
+            mt: '50px',
+            height: 'calc(100vh - 50px)',
+          }}
+        >
+          {isDividerOpen && (
+            <Box
+              sx={{
+                width: '60px',
+                height: '100%',
+                bgcolor: '#f0f4c3',
+                display: 'flex',
+                flexDirection: 'column',
+                alignItems: 'center',
+                borderRight: '1px solid #ccc',
+                flexShrink: 0,
+              }}
+            >
+              <Divider />
+            </Box>
+          )}
+
+          <Box
+            sx={{
+              width: isDividerOpen ? 'calc(100% - 60px)' : '100%',
+              p: 3,
+              overflowY: 'auto',
+              bgcolor: '#f3e5f5',
+            }}
+          >
+            <Profile />
+          </Box>
+        </Box>
+      </Box>
+    );
+  }
 
 
   return (
@@ -31,18 +88,14 @@ function Home() {
         overflow: 'hidden',
       }}
     >
-      {/* Header */}
       <ProfileHeader />
-
-      {/* Body Layout */}
       <Box
         sx={{
           display: 'flex',
-          mt: '50px', // height of fixed header
+          mt: '50px',
           height: 'calc(100vh - 50px)',
         }}
       >
-        {/* Divider */}
         {isDividerOpen && (
           <Box
             sx={{
@@ -59,7 +112,6 @@ function Home() {
           </Box>
         )}
 
-        {/* Sidebar */}
         <Box
           sx={{
             width: {
@@ -74,8 +126,6 @@ function Home() {
         >
           <Sidebar />
         </Box>
-
-        {/* Main Content */}
 
         <Box
           sx={{
@@ -115,8 +165,6 @@ function Home() {
             <Outlet />
           )}
         </Box>
-
-
       </Box>
     </Box>
   );

@@ -1,16 +1,19 @@
 import React from 'react';
-import { Box, IconButton, Link, Tooltip } from '@mui/material';
+import { Box, IconButton, Tooltip } from '@mui/material';
 import MessageIcon from '@mui/icons-material/Message';
 import ContactsIcon from '@mui/icons-material/Contacts';
 import AccountBoxIcon from '@mui/icons-material/AccountBox';
 import { useDispatch, useSelector } from 'react-redux';
 import { setProfile } from '../redux/slice/profileSlice';
-// import { useNavigate } from 'react-router-dom';
-
+import { setContact } from '../redux/slice/contactSlice';
+import { setMessage } from '../redux/slice/messageSlice';
 
 function Divider() {
   const dispatch = useDispatch();
-  const isProfileOpen = useSelector((state) => state.profile.isProfileOpen);
+  // const isProfileOpen = useSelector((state) => state.profile.isProfileOpen);
+  // const isMessageOpen = useSelector((state) => state.message.isMessageOpen);
+  // const isContactOpen = useSelector((state) => state.contact.isContactOpen);
+
   return (
     <Box
       sx={{
@@ -26,19 +29,37 @@ function Divider() {
       }}
     >
       <Tooltip title="Messages" placement="right">
-        <IconButton component={Link} to="/home">
+        <IconButton
+          onClick={() => {
+            dispatch(setMessage(true));
+            dispatch(setContact(false));
+            dispatch(setProfile(false));
+          }}
+        >
           <MessageIcon />
         </IconButton>
       </Tooltip>
 
       <Tooltip title="Contacts" placement="right">
-        <IconButton component={Link} to="/home/contacts">
+        <IconButton
+          onClick={() => {
+            dispatch(setContact(true));
+            dispatch(setMessage(false));
+            dispatch(setProfile(false));
+          }}
+        >
           <ContactsIcon />
         </IconButton>
       </Tooltip>
 
       <Tooltip title="Profile" placement="right">
-        <IconButton onClick={() => dispatch(setProfile(!isProfileOpen))}>
+        <IconButton
+          onClick={() => {
+            dispatch(setProfile(true));
+            dispatch(setMessage(false));
+            dispatch(setContact(false));
+          }}
+        >
           <AccountBoxIcon />
         </IconButton>
       </Tooltip>

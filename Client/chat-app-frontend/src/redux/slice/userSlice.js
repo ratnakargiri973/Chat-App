@@ -6,6 +6,8 @@ const initialState = {
   email: "",
   phone: "",
   profilePic: "",
+  coverPic:"",
+  bio:"",
   token: "",
 }
 
@@ -19,6 +21,8 @@ export const userSlice = createSlice({
       state.email = action.payload.email;
       state.phone = action.payload.phone;
       state.profilePic = action.payload.profilePic;
+      state.coverPic = action.payload.coverPic;
+      state.bio = action.payload.bio;
     }
   },
 })

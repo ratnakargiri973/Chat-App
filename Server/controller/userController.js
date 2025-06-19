@@ -17,8 +17,9 @@ export const register = async (req, res) => {
   try {
     if (req.file) {
       const imageObj = await uploadToCloudinary(req.file.buffer);
-      imageUrl = imageObj?.imageObj?.secure_url;
+      imageUrl = imageObj?.secure_url;
     }
+    
 
     const existingEmail = await user.findOne({ email });
     if (existingEmail) {
@@ -102,6 +103,7 @@ export const login = async (req, res) => {
       userName: userToLogin.userName,
       email: userToLogin.email,
       phone: userToLogin.phone,
+      bio: userToLogin.bio
     };
 
     res.status(200).send({
@@ -156,12 +158,13 @@ export const getSingleUser = async (req, res) => {
 }
 
 export const updateUser = async (req, res) => {
-   const {name, userName, email} = req.body;
+   const {name, userName, email, phone} = req.body;
     try {
     const userToUpdate = await user.findByIdAndUpdate(req.User._id, {
           name,
           userName,
-          email
+          email,
+          phone
     });
 
     res.status(200).send({message: "profile updated successfully", userToUpdate});

@@ -28,6 +28,10 @@ const userSchema = new mongoose.Schema({
         type: String,
         default: null
     },
+    coverPic: {
+        type: String,
+        default: ""
+    },
     otp: {
         type: String,
         default: null
@@ -42,6 +46,7 @@ const userSchema = new mongoose.Schema({
     },
     bio: {
          type: String,
+         default:""
     }
 })
 

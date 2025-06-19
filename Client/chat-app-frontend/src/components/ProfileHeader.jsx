@@ -1,4 +1,4 @@
-import { Box, Typography } from '@mui/material';
+import { Box, Typography, useMediaQuery } from '@mui/material';
 import React, { useState } from 'react';
 import Avatar from '../components/Avatar';
 import FormatListBulletedIcon from '@mui/icons-material/FormatListBulleted';
@@ -7,8 +7,10 @@ import { setDivider } from '../redux/slice/dividerSlice';
 
 
 function ProfileHeader() {
-    const dispatch = useDispatch();
-    const isDividerOpen = useSelector((state) =>  state.divider.isDividerOpen);
+  const dispatch = useDispatch();
+  const isDividerOpen = useSelector((state) => state.divider.isDividerOpen);
+
+  const isSmallOrMedium = useMediaQuery((theme) => theme.breakpoints.down('md'));
 
   return (
     <Box
@@ -25,10 +27,12 @@ function ProfileHeader() {
         zIndex: 1100,
       }}
     >
-      <FormatListBulletedIcon sx={{ color: '#fff' }} onClick={() => dispatch(setDivider(!isDividerOpen))}/>
-      <Typography variant="h6" color="white" fontWeight="bold">
-        True Connect
-      </Typography>
+      <FormatListBulletedIcon sx={{ color: '#fff' }} onClick={() => dispatch(setDivider(!isDividerOpen))} />
+      {!isSmallOrMedium &&
+        <Typography variant="h6" color="white" fontWeight="bold">
+          True Connect
+        </Typography>
+      }
       <Avatar />
     </Box>
   );

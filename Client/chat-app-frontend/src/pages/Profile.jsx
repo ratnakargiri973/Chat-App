@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   Typography,
@@ -8,31 +8,53 @@ import {
   CardContent,
   Divider,
   Stack,
+  IconButton,
+  Button,
 } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
+import EditIcon from '@mui/icons-material/Edit';
+import { setProfile } from '../redux/slice/profileSlice';
+import { useLocation, useNavigate } from 'react-router-dom';
+import EditProfile from './EditProfile';
 
 function Profile() {
   const { name, userName, email, phone, profilePic, bio, coverPic } = useSelector(
     (state) => state.user
   );
+  const dispatch = useDispatch();
+
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleEdit = () => {
+    navigate('edit-profile');
+  };
 
   return (
     <Card
       sx={{
-        maxWidth: 650,
+        width: '100%',
+        maxWidth: 800,
         mx: 'auto',
-        my: 5,
+        mb: 4,
         borderRadius: 5,
         boxShadow: 6,
         overflow: 'hidden',
         backgroundColor: '#fdfdfd',
+        position: 'relative',
       }}
     >
 
+      <Box sx={{ position: 'absolute', top: 20, left: 20, zIndex: 1 }}>
+        <IconButton onClick={() => dispatch(setProfile(false))} sx={{ color: 'red' }}>
+          <ArrowBackIcon fontSize="large" />
+        </IconButton>
+      </Box>
+
       <Box
         sx={{
-          position: 'relative',
           height: 220,
           backgroundImage: `url(${coverPic})`,
           backgroundSize: 'cover',
@@ -41,7 +63,6 @@ function Profile() {
       >
         <Box
           sx={{
-            position: 'absolute',
             width: '100%',
             height: '100%',
             backdropFilter: 'blur(2px)',
@@ -49,7 +70,6 @@ function Profile() {
           }}
         />
       </Box>
-
 
       <Box sx={{ textAlign: 'center', mt: -9 }}>
         <Avatar
@@ -69,7 +89,25 @@ function Profile() {
         />
       </Box>
 
-      <CardContent>
+      <CardContent sx={{ position: 'relative' }}>
+        <Box sx={{ position: 'absolute', top: 0, right: 0 }}>
+          <Button
+            variant="outlined"
+            size="small"
+            startIcon={<EditIcon />}
+            onClick={handleEdit}
+            sx={{
+              mt: 1,
+              mr: 1,
+              textTransform: 'none',
+              borderRadius: 4,
+              boxShadow: 1,
+            }}
+          >
+            Edit
+          </Button>
+        </Box>
+
         <Typography variant="h4" align="center" fontWeight="bold">
           {name}
         </Typography>
@@ -99,6 +137,8 @@ function Profile() {
           <Typography variant="body1">{phone}</Typography>
         </Stack>
       </CardContent>
+      {location.pathname === '/home/profile/edit-profile' && <EditProfile />}
+      
     </Card>
   );
 }

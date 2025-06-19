@@ -14,6 +14,7 @@ import Profile from '../pages/Profile';
 import Contacts from '../pages/Contacts';
 import Messages from '../pages/Messages'
 import ProtectedRoute from './ProtectedRoute';
+import EditProfile from '../pages/EditProfile';
 
 const router = createBrowserRouter([
   {
@@ -50,14 +51,18 @@ const router = createBrowserRouter([
           },
           
            {
-        element: <ProtectedRoute />, // <- Protecting all children here
+        element: <ProtectedRoute />, 
         children: [
           {
             path: 'home',
             element: <Home />,
             children: [
               { path: ':userId', element: <Messages /> },
-              { path: 'profile', element: <Profile /> },
+              { path: 'profile', 
+                element: <Profile />,
+                children:[ 
+                  { path: 'edit-profile', element: <EditProfile />}
+                ] },
               { path: 'contacts', element: <Contacts /> },
               { path: 'message', element: <Messages /> },
             ],

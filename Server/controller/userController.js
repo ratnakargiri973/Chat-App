@@ -19,6 +19,7 @@ export const register = async (req, res) => {
       const imageObj = await uploadToCloudinary(req.file.buffer);
       imageUrl = imageObj?.secure_url;
     }
+    console.log(imageUrl);
     
 
     const existingEmail = await user.findOne({ email });
@@ -158,21 +159,46 @@ export const getSingleUser = async (req, res) => {
 }
 
 export const updateUser = async (req, res) => {
-   const {name, userName, email, phone} = req.body;
-    try {
-    const userToUpdate = await user.findByIdAndUpdate(req.User._id, {
-          name,
-          userName,
-          email,
-          phone
-    });
+  const { name, userName, email, phone, bio } = req.body;
 
-    res.status(200).send({message: "profile updated successfully", userToUpdate});
-    } catch (error) {
-       res.status(500).send({message: "Error in updating user", error}); 
+  try {
+    let profileUrl = null;
+    let coverUrl = null;
+
+    
+    if (req.files?.profileImage?.[0]) {
+      const imageObj = await uploadToCloudinary(req.files.profileImage[0].buffer);
+      profileUrl = imageObj?.secure_url;
     }
-}
 
+    if (req.files?.coverImage?.[0]) {
+      const imageObj = await uploadToCloudinary(req.files.coverImage[0].buffer);
+      coverUrl = imageObj?.secure_url;
+    }
+
+    const updateFields = {
+      name,
+      userName,
+      email,
+      phone,
+      bio,
+    };
+
+    if (profileUrl) updateFields.profilePic = profileUrl;
+    if (coverUrl) updateFields.coverPic = coverUrl;
+
+    const userToUpdate = await user.findByIdAndUpdate(
+      req.User._id,
+      updateFields,
+      { new: true }
+    );
+
+    res.status(200).send({ message: 'Profile updated successfully', user: userToUpdate });
+  } catch (error) {
+    console.error('Update Error:', error);
+    res.status(500).send({ message: 'Error in updating user', error });
+  }
+};
 export const deleteUser = async (req, res) => {
     const {id} = req.params;
     try {

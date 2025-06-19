@@ -1,15 +1,8 @@
 import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  Box,
-  Typography,
-  Card,
-  Avatar,
-  CardContent,
-  Divider,
-  Stack,
-  IconButton,
-  Button,
+  Box, Typography, Card, Avatar, CardContent, Divider, Stack,
+  IconButton, Button
 } from '@mui/material';
 import EmailIcon from '@mui/icons-material/Email';
 import PhoneIcon from '@mui/icons-material/Phone';
@@ -20,11 +13,8 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import EditProfile from './EditProfile';
 
 function Profile() {
-  const { name, userName, email, phone, profilePic, bio, coverPic } = useSelector(
-    (state) => state.user
-  );
+  const { name, userName, email, phone, profilePic, bio, coverPic } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -33,6 +23,8 @@ function Profile() {
   };
 
   return (
+    <>
+    {location.pathname === '/home/profile' &&
     <Card
       sx={{
         width: '100%',
@@ -46,7 +38,6 @@ function Profile() {
         position: 'relative',
       }}
     >
-
       <Box sx={{ position: 'absolute', top: 20, left: 20, zIndex: 1 }}>
         <IconButton onClick={() => dispatch(setProfile(false))} sx={{ color: 'red' }}>
           <ArrowBackIcon fontSize="large" />
@@ -96,13 +87,7 @@ function Profile() {
             size="small"
             startIcon={<EditIcon />}
             onClick={handleEdit}
-            sx={{
-              mt: 1,
-              mr: 1,
-              textTransform: 'none',
-              borderRadius: 4,
-              boxShadow: 1,
-            }}
+            sx={{ mt: 1, mr: 1, textTransform: 'none', borderRadius: 4, boxShadow: 1 }}
           >
             Edit
           </Button>
@@ -137,9 +122,10 @@ function Profile() {
           <Typography variant="body1">{phone}</Typography>
         </Stack>
       </CardContent>
-      {location.pathname === '/home/profile/edit-profile' && <EditProfile />}
-      
     </Card>
+      }
+      {location.pathname === '/home/profile/edit-profile' && <EditProfile />}
+      </>
   );
 }
 

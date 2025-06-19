@@ -49,7 +49,7 @@ function Register() {
       const data = new FormData();
       Object.entries(formData).forEach(([key, value]) => data.append(key, value));
       if (profilePic) {
-        data.append('image', profilePic);
+        data.append('profileImage', profilePic);
       }
 
       const response = await instance.post('user/register', data, {
@@ -139,10 +139,31 @@ function Register() {
             <TextField name="email" label="Email" type="email" variant="standard" fullWidth value={formData.email} onChange={handleChange} />
             <TextField name="phone" label="Phone" type="text" variant="standard" fullWidth value={formData.phone} onChange={handleChange} />
             <TextField name="password" label="Password" type="password" variant="standard" fullWidth value={formData.password} onChange={handleChange} />
-            <Button component="label" variant="outlined">
-              Upload Profile Picture
-              <input type="file" name='image' hidden accept="image/*" onChange={handleFileChange} />
-            </Button>
+            <Box sx={{ width: '48%' }}>
+                        <Typography variant="body2" sx={{ mb: 1, fontWeight: 500 }}>
+                          Update Profile Picture
+                        </Typography>
+                        <Button
+                          component="label"
+                          variant="outlined"
+                          fullWidth
+                          sx={{ textTransform: 'none' }}
+                        >
+                          Choose Profile Image
+                          <input
+                            type="file"
+                            accept="image/*"
+                            name="profileImage"
+                            hidden
+                            onChange={(e) => setProfilePic(e.target.files[0])}
+                          />
+                        </Button>
+                        {profilePic && (
+                          <Typography variant="caption" color="text.secondary">
+                            Selected: {profilePic.name}
+                          </Typography>
+                        )}
+                      </Box>
 
             <LoadingButton type="submit" loading={loading} variant="contained" fullWidth>
               Register
